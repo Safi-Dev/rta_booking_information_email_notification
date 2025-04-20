@@ -1,0 +1,13 @@
+{
+    "target_date": "DD/MM/YYYY", 
+    "email": {
+      "enabled": true,
+      "recipient": "example@example.com",
+      "subject": "Early RTA Appointment Found!",
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "smtp_username": "example@example.com",
+      "smtp_password": ""
+    },
+    "sleep_between_cycles_seconds": 3600
+  } 
