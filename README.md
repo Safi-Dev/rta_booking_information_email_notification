@@ -1,6 +1,16 @@
 This script scrapes and stores the availability of timeslots for 
-Car Driving Test at all RTA Serivce NSW centres in the state. 
+Car Driving Test at all RTA Serivce NSW centres in the state, you can now set a target date and an email notification will be provided upon a suitable slot being found. Similar to the original creator I have found the process of booking a little frustrating and time consuming and have created a script to fulfill my requirements.
 
+# CHANGES FROM ORIGINAL
+I have provided .bat files to make it easier to run on windows (you can now use the default command prompt), I have added an email notification functionality upon an appointment with your target date becoming available, I have provided an smtp conenction test for easier troubleshooting,  I have updated usage instructions to add  new functionality
+
+# Running the NEW continuous script with email notifcation based on target date
+(after completing other setup as specified in usage)
+
+Run the script (for windows) 
+Simply double click the `check_early_appointments.bat` file
+
+a .sh file is also available as required
 
 ## Dependencies
 
@@ -9,6 +19,7 @@ Car Driving Test at all RTA Serivce NSW centres in the state.
  3. Python3 and Selenium installed
  4. jq for json processing (for querying multiple locations and creating reports)
  5. GNU parallel for querying availability for multiple locations
+ 6. An SMTP email (can be made using gmail
 
 ## Usage
 
@@ -29,12 +40,21 @@ Copy and modify the sample settings file
 cp settings_sample.json settings.json
 ```
 
+Copy and modify the sample settings2 file
+```
+cp settings2_sample.json settings2.json
+```
+
+FOR SETTINGS.JSON:
 Change the username, password to your own account. If you already have a booking
 in the system then set the `have_booking` variable to true. If you want to see the
 chromedriver UI then set the `headless` variable to false. The variables `wait_timer`
 and `wait_timer_car` can be increased to make the script suitable for slower internet
 connections. When the `git_upload` variable is set to true, the `get_all_locations.sh`
 script will try to commit the results back to github to update the website.
+
+FOR SETTINGS2.JSON:
+Change the target date, email recipient, smtp email server, port username and password and sleep between cycles to desired parameters.
 
 #### Running the script for one location
 
@@ -89,22 +109,13 @@ using the `create_status_report` script.
 ./create_status_report docs/centers.json docs/results.json
 ```
 
-### Containerised implementation
+### Running the NEW continuous script with email notifcation based on target date
+(after completing other setup as specified in usage)
 
-The containerised implementation can be used to run this script on the cloud at regular intervals.
-If you want to host a github site with the results, please change the repo address in dockerfile to yours and then
-create the gitconfig and git-credential files from the samples provided. Then build the continer by doing,
+Run the script (for windows) 
+Simply double click the `check_early_appointments.bat` file
 
-```
-docker build -t rta_booking_availability .
-```
-
-Once the image has been built you can run the container with regular update interval by,
-
-```
-docker run --restart unless-stopped --name rta_booking_availability -d rta_booking_availability
-```
-If your want to add a delay of n seconds between subsequent updates, add `sleep(n)` to the end of get_all_locations.shscript.
+a .sh file is also available as required
 
 ### Note
 
